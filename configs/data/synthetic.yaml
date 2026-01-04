@@ -1,0 +1,70 @@
+# @package data
+
+_target_: src.data.synthetic_data.SyntheticDataGenerator
+
+# Synthetic data generation parameters
+num_samples: 10000
+num_symbols: 5
+date_range_days: 1460  # ~4 years
+
+# Text generation parameters
+text_generation:
+  min_length: 10
+  max_length: 200
+  sentiment_distribution:
+    positive: 0.4
+    neutral: 0.3
+    negative: 0.3
+  
+  # Financial keywords for different sentiment categories
+  keywords:
+    positive:
+      - "surge"
+      - "rally"
+      - "breakthrough"
+      - "outperform"
+      - "bullish"
+      - "growth"
+      - "profit"
+      - "revenue"
+      - "earnings beat"
+      - "upgrade"
+    
+    negative:
+      - "decline"
+      - "plunge"
+      - "crash"
+      - "bearish"
+      - "loss"
+      - "miss"
+      - "downgrade"
+      - "concern"
+      - "risk"
+      - "volatility"
+    
+    neutral:
+      - "report"
+      - "announcement"
+      - "quarterly"
+      - "analysis"
+      - "forecast"
+      - "outlook"
+      - "guidance"
+      - "conference"
+      - "meeting"
+      - "update"
+
+# Market data simulation
+market_simulation:
+  base_price: 100.0
+  volatility: 0.2
+  drift: 0.05
+  jump_probability: 0.1
+  jump_size: 0.05
+  
+  # Sentiment impact on price
+  sentiment_impact:
+    positive: 0.02  # 2% positive impact
+    negative: -0.02  # 2% negative impact
+    neutral: 0.0  # No impact
+    lag_days: 1  # Sentiment affects price with 1-day lag

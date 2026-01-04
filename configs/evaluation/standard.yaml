@@ -1,0 +1,66 @@
+# @package evaluation
+
+_target_: src.utils.evaluation.Evaluator
+
+# Evaluation metrics
+metrics:
+  classification:
+    - "accuracy"
+    - "precision_macro"
+    - "recall_macro"
+    - "f1_macro"
+    - "f1_weighted"
+    - "auc_roc"
+    - "auc_pr"
+    - "confusion_matrix"
+  
+  regression:
+    - "mse"
+    - "rmse"
+    - "mae"
+    - "r2"
+    - "mape"
+  
+  financial:
+    - "sharpe_ratio"
+    - "sortino_ratio"
+    - "calmar_ratio"
+    - "max_drawdown"
+    - "hit_rate"
+    - "information_ratio"
+    - "alpha"
+    - "beta"
+    - "volatility"
+
+# Cross-validation strategy
+cv_strategy:
+  method: "time_series_split"
+  n_splits: 5
+  test_size: 0.2
+  gap: 1  # Gap between train and test to prevent leakage
+  
+# Purged cross-validation for overlapping labels
+purged_cv:
+  enabled: true
+  purge_length: 5  # Days to purge before test period
+  embargo_length: 5  # Days to embargo after test period
+
+# Statistical significance testing
+significance_testing:
+  enabled: true
+  alpha: 0.05
+  bootstrap_samples: 1000
+  test_type: "paired_t_test"
+
+# Model comparison
+model_comparison:
+  baseline_models:
+    - "random"
+    - "majority_class"
+    - "textblob"
+    - "vader"
+  
+  statistical_tests:
+    - "diebold_mariano"
+    - "model_confidence_set"
+    - "reality_check"

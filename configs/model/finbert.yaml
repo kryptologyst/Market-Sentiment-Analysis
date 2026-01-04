@@ -1,0 +1,45 @@
+# @package model
+
+_target_: src.models.finbert_model.FinBERTSentimentModel
+
+# Model architecture
+architecture:
+  model_name: "ProsusAI/finbert"
+  num_labels: 3  # positive, neutral, negative
+  dropout: 0.1
+  hidden_size: 768
+
+# Training hyperparameters
+training:
+  batch_size: 16
+  learning_rate: 2e-5
+  num_epochs: 3
+  warmup_steps: 100
+  weight_decay: 0.01
+  gradient_accumulation_steps: 1
+  max_grad_norm: 1.0
+  
+# Tokenization
+tokenization:
+  max_length: 512
+  padding: "max_length"
+  truncation: true
+  return_tensors: "pt"
+
+# Model variants
+variants:
+  finbert:
+    model_name: "ProsusAI/finbert"
+    description: "Financial BERT model fine-tuned on financial sentiment"
+  
+  roberta:
+    model_name: "cardiffnlp/twitter-roberta-base-sentiment-latest"
+    description: "RoBERTa model trained on Twitter sentiment"
+  
+  vader:
+    model_name: "vader"
+    description: "VADER sentiment analysis (rule-based)"
+  
+  textblob:
+    model_name: "textblob"
+    description: "TextBlob sentiment analysis (lexicon-based)"

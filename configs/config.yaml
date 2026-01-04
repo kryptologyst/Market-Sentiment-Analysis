@@ -1,0 +1,111 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: synthetic
+  - model: finbert
+  - evaluation: standard
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+# Experiment configuration
+experiment:
+  name: "market_sentiment_analysis"
+  version: "1.0.0"
+  tags: ["nlp", "sentiment", "finance", "research"]
+
+# Random seeds for reproducibility
+seed: 42
+
+# Data configuration
+data:
+  symbols: ["AAPL", "MSFT", "GOOGL", "TSLA", "AMZN"]
+  start_date: "2020-01-01"
+  end_date: "2023-12-31"
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  
+# Feature engineering
+features:
+  text_features:
+    - "sentiment_polarity"
+    - "sentiment_subjectivity"
+    - "vader_sentiment"
+    - "finbert_sentiment"
+    - "text_length"
+    - "word_count"
+    - "has_earnings_keywords"
+    - "has_merger_keywords"
+    - "has_regulatory_keywords"
+  
+  technical_features:
+    - "price_change_1d"
+    - "price_change_7d"
+    - "volume_ratio"
+    - "volatility_7d"
+    - "rsi_14d"
+
+# Model configuration
+model:
+  name: "finbert"
+  max_length: 512
+  batch_size: 16
+  learning_rate: 2e-5
+  num_epochs: 3
+  warmup_steps: 100
+  weight_decay: 0.01
+
+# Training configuration
+training:
+  device: "auto"  # auto, cuda, mps, cpu
+  mixed_precision: true
+  gradient_accumulation_steps: 1
+  max_grad_norm: 1.0
+  early_stopping_patience: 3
+
+# Evaluation configuration
+evaluation:
+  metrics:
+    ml:
+      - "accuracy"
+      - "f1_macro"
+      - "f1_weighted"
+      - "precision_macro"
+      - "recall_macro"
+      - "auc_roc"
+      - "auc_pr"
+    financial:
+      - "sharpe_ratio"
+      - "max_drawdown"
+      - "hit_rate"
+      - "information_ratio"
+
+# Backtesting configuration
+backtesting:
+  initial_capital: 100000
+  transaction_cost: 0.001  # 0.1% per trade
+  slippage: 0.0005  # 0.05% slippage
+  rebalance_frequency: "daily"
+  position_sizing: "equal_weight"
+
+# Risk management
+risk:
+  max_position_size: 0.1  # 10% max per position
+  stop_loss: 0.05  # 5% stop loss
+  take_profit: 0.15  # 15% take profit
+  max_drawdown_limit: 0.2  # 20% max drawdown
+
+# Logging and monitoring
+logging:
+  level: "INFO"
+  log_dir: "logs"
+  use_wandb: false
+  wandb_project: "market-sentiment-analysis"
+
+# Paths
+paths:
+  data_dir: "data"
+  models_dir: "assets/models"
+  plots_dir: "assets/plots"
+  configs_dir: "configs"
